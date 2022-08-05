@@ -310,14 +310,13 @@ RSpec.describe 'Merchant Show Dashboard' do
         invoice_item_6 = InvoiceItem.create!(quantity: 3, unit_price: 666, status: 2, item_id: item_5.id, invoice_id: invoice_3.id)
 
         visit "/merchants/#{merchant_1.id}/dashboard"
+        
         within '#item0' do
-
             expect(page).to have_content("Saturday, January 1, 2000")
             expect(page).to_not have_content(invoice_2.created_at.strftime("%A, %B %e, %Y"))
         end
 
         within '#item1' do
-
           expect(page).to have_content("Saturday, January 1, 2000")
           expect(page).to_not have_content(invoice_2.created_at)
         end
@@ -340,7 +339,6 @@ RSpec.describe 'Merchant Show Dashboard' do
         it 'when link is clicked redirects to bulk discounts index page' do
             merchant_1 = Merchant.create!(name: "Bobs Loggers")
             visit "/merchants/#{merchant_1.id}/dashboard"
-            save_and_open_page
 
             click_link("Bulk Discounts")
 
