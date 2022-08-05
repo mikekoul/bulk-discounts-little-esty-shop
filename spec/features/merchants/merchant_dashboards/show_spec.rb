@@ -327,4 +327,24 @@ RSpec.describe 'Merchant Show Dashboard' do
           expect(page).to_not have_content(invoice_1.created_at)
         end
     end
+
+    describe "#bulk discounts" do    
+        it 'has a link to bulk discounts index page' do
+            merchant_1 = Merchant.create!(name: "Bobs Loggers")
+
+            visit "/merchants/#{merchant_1.id}/dashboard"
+
+            expect(page).to have_link("Bulk Discounts")
+        end
+
+        it 'when link is clicked redirects to bulk discounts index page' do
+            merchant_1 = Merchant.create!(name: "Bobs Loggers")
+
+            visit "/merchants/#{merchant_1.id}/dashboard"
+
+            click_link("Bulk Discounts")
+
+            expect(current_path).to eq("/merchants/#{merchant_1.id}/bulk_discounts")
+        end
+    end
 end
