@@ -339,8 +339,8 @@ RSpec.describe 'Merchant Show Dashboard' do
 
         it 'when link is clicked redirects to bulk discounts index page' do
             merchant_1 = Merchant.create!(name: "Bobs Loggers")
-
             visit "/merchants/#{merchant_1.id}/dashboard"
+            save_and_open_page
 
             click_link("Bulk Discounts")
 
