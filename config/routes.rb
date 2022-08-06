@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     patch '/invoices/:invoice_id', to: 'merchant_invoices#update'
     get '/bulk_discounts', to: 'merchant_bulk_discounts#index'
     get '/bulk_discounts/new', to: 'merchant_bulk_discounts#new'
+    post '/bulk_discounts', to: 'merchant_bulk_discounts#create'
 
     
     get "/items", to: "merchant_items#index"
