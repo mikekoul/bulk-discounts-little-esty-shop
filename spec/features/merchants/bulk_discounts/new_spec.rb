@@ -15,7 +15,7 @@ RSpec.describe 'merchant bulk discount new page' do
   end
 
   describe '#create' do
-    it 'when given valid data and click save redirected to merchant bulk index page where new discount is displayed' do
+    it 'when given valid data and click submit redirected to merchant bulk index page where new discount is displayed' do
 
       merchant_1 = Merchant.create!(name: 'Spongebob The Merchant')
 
@@ -24,7 +24,7 @@ RSpec.describe 'merchant bulk discount new page' do
       fill_in 'Name', with: '12% off Dozen Burgers'
       fill_in 'Threshold', with: 12
       fill_in 'Percent discount', with: 12
-      click_button 'Save'
+      click_button 'Submit'
 
       expect(current_path).to eq("/merchants/#{merchant_1.id}/bulk_discounts")
 

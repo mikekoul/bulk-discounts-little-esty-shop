@@ -17,7 +17,7 @@ class MerchantBulkDiscountsController < ApplicationController
       redirect_to "/merchants/#{merchant.id}/bulk_discounts"
     else
       redirect_to "/merchants/#{merchant.id}/bulk_discounts/new"
-      flash[:alert] = "Fields May Not Be Empty"
+      flash[:alert] = "Error: Fields May Not Be Empty"
     end
   end
 
