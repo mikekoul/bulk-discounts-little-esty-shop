@@ -10,8 +10,7 @@ RSpec.describe 'bulk discounts edit page' do
 
       expect(page).to have_field('Name', with: '10% off')
       expect(page).to have_field('Threshold', with: '10')
-      expect
-      (page).to have_field('Percent discount', with: '10')
+      expect(page).to have_field('Percent discount', with: '10')
     end
 
     it 'fill form in with valid values and redirect to show page with updated attributes' do
