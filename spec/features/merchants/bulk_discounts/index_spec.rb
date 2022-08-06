@@ -108,5 +108,24 @@ RSpec.describe 'bulk discounts index page' do
         expect(page).to have_button('Delete')
       end
     end
+
+    it 'click delete and redirected to page where discount is no longer there' do
+      merchant_1 = Merchant.create!(name: 'Spongebob The Merchant')
+      merchant_2 = Merchant.create!(name: 'Sandy The Squirrel Merchant')
+      discount_10 = BulkDiscount.create!(name: "10% off", threshold: 10, percent_discount: 10, merchant_id: merchant_1.id)
+      discount_20 = BulkDiscount.create!(name: "20% off", threshold: 20, percent_discount: 20, merchant_id: merchant_1.id)
+      discount_30 = BulkDiscount.create!(name: "30% off", threshold: 30, percent_discount: 30, merchant_id: merchant_1.id)
+      special_discount_10 = BulkDiscount.create!(name: "Special 10% off", threshold: 10, percent_discount: 10, merchant_id: merchant_2.id)
+
+      visit "/merchants/#{merchant_1.id}/bulk_discounts"
+
+      within "#discounts-#{discount_10.id}" do
+        click_button "Delete"
+      end
+
+      expect(current_path).to eq("/merchants/#{merchant_1.id}/bulk_discounts")
+      expect(page).to have_content("20% off Purchase of 20 items")
+      expect(page).to_not have_content("10% off Purchase of 10 items")
+    end
   end
 end
