@@ -14,6 +14,7 @@
 <div id="discounts-<%= bulk_discount.id %>">
   <h3><%= "#{bulk_discount.name} Purchase of #{bulk_discount.threshold} items" %></h3>
   <p><%= link_to "#{bulk_discount.name} Info Page", "/merchants/#{@merchant.id}/bulk_discounts/#{bulk_discount.id}" %>
+  <p><%= button_to "Delete", "/merchants/#{@merchant.id}/bulk_discounts/#{bulk_discount.id}", method: :delete %></p>
 </div>
 <% end %>
 
