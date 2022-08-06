@@ -17,5 +17,29 @@ RSpec.describe 'bulk discounts show page' do
       expect(page).to_not have_content('Percent Discount: 20%')
       expect(page).to_not have_content('20% off Show Page')
     end
+
+    it 'has button to edit bulk discount' do
+      merchant_1 = Merchant.create!(name: 'Spongebob The Merchant')
+      merchant_2 = Merchant.create!(name: 'Sandy The Squirrel Merchant')
+      discount_10 = BulkDiscount.create!(name: "10% off", threshold: 10, percent_discount: 10, merchant_id: merchant_1.id)
+      discount_20 = BulkDiscount.create!(name: "20% off", threshold: 20, percent_discount: 20, merchant_id: merchant_1.id)
+
+      visit "merchants/#{merchant_1.id}/bulk_discounts/#{discount_10.id}"
+
+      expect(page).to have_button('Edit Discount')
+    end
+
+    it 'click edit discount button and redirect to edit form' do
+      merchant_1 = Merchant.create!(name: 'Spongebob The Merchant')
+      merchant_2 = Merchant.create!(name: 'Sandy The Squirrel Merchant')
+      discount_10 = BulkDiscount.create!(name: "10% off", threshold: 10, percent_discount: 10, merchant_id: merchant_1.id)
+      discount_20 = BulkDiscount.create!(name: "20% off", threshold: 20, percent_discount: 20, merchant_id: merchant_1.id)
+
+      visit "merchants/#{merchant_1.id}/bulk_discounts/#{discount_10.id}"
+
+      click_button('Edit Discount')
+
+      expect(current_path).to eq("merchants/#{merchant_1.id}/bulk_discounts/#{discount_10.id}/edit")
+    end
   end
 end

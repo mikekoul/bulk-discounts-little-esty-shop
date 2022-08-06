@@ -16,14 +16,12 @@ class MerchantBulkDiscountsController < ApplicationController
   def create
     merchant = Merchant.find(params[:merchant_id])
     discount = merchant.bulk_discounts.new(bulk_params) 
+    discount.save
+    redirect_to "/merchants/#{merchant.id}/bulk_discounts"
+  end
 
-    if discount.save
-      flash.clear
-      redirect_to "/merchants/#{merchant.id}/bulk_discounts"
-    else
-      redirect_to "/merchants/#{merchant.id}/bulk_discounts/new"
-      flash[:alert] = "Error: Fields May Not Be Empty"
-    end
+  def edit
+    binding.pry
   end
 
   def destroy
