@@ -121,9 +121,10 @@ RSpec.describe 'bulk discounts index page' do
 
       within "#discounts-#{discount_10.id}" do
         click_button "Delete"
+        expect(current_path).to eq("/merchants/#{merchant_1.id}/bulk_discounts")
       end
 
-      expect(current_path).to eq("/merchants/#{merchant_1.id}/bulk_discounts")
+      expect(page).to have_content('Spongebob The Merchant')
       expect(page).to have_content("20% off Purchase of 20 items")
       expect(page).to_not have_content("10% off Purchase of 10 items")
     end
