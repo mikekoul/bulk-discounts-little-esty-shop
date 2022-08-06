@@ -53,5 +53,33 @@ RSpec.describe 'bulk discounts index page' do
         expect(page).to have_link("30% off Info Page")
       end
     end
+
+    it 'page contains link to create a new bulk discount' do
+      merchant_1 = Merchant.create!(name: 'Spongebob The Merchant')
+      merchant_2 = Merchant.create!(name: 'Sandy The Squirrel Merchant')
+      discount_10 = BulkDiscount.create!(name: "10% off", threshold: 10, percent_discount: 10, merchant_id: merchant_1.id)
+      discount_20 = BulkDiscount.create!(name: "20% off", threshold: 20, percent_discount: 20, merchant_id: merchant_1.id)
+      discount_30 = BulkDiscount.create!(name: "30% off", threshold: 30, percent_discount: 30, merchant_id: merchant_1.id)
+      special_discount_10 = BulkDiscount.create!(name: "Special 10% off", threshold: 10, percent_discount: 10, merchant_id: merchant_2.id)
+
+      visit "/merchants/#{merchant_1.id}/bulk_discounts"
+
+      expect(page).to have_link("Create New Discount")
+    end
+    
+    it 'click link to create a new discount and redirect to new page' do
+      merchant_1 = Merchant.create!(name: 'Spongebob The Merchant')
+      merchant_2 = Merchant.create!(name: 'Sandy The Squirrel Merchant')
+      discount_10 = BulkDiscount.create!(name: "10% off", threshold: 10, percent_discount: 10, merchant_id: merchant_1.id)
+      discount_20 = BulkDiscount.create!(name: "20% off", threshold: 20, percent_discount: 20, merchant_id: merchant_1.id)
+      discount_30 = BulkDiscount.create!(name: "30% off", threshold: 30, percent_discount: 30, merchant_id: merchant_1.id)
+      special_discount_10 = BulkDiscount.create!(name: "Special 10% off", threshold: 10, percent_discount: 10, merchant_id: merchant_2.id)
+
+      visit "/merchants/#{merchant_1.id}/bulk_discounts"
+
+      click_link("Create New Discount")
+
+      expect(current_path).to eq("/merchants/#{merchant_1.id}/bulk_discounts/new")
+    end
   end
 end
