@@ -15,7 +15,7 @@ RSpec.describe 'merchant bulk discount new page' do
   end
 
   describe '#create' do
-    it 'when given valid data and click submit redirected to merchant bulk index page where new discount is displayed' do
+    it 'when given valid data and click redirected to merchant bulk index page where new discount is displayed' do
 
       merchant_1 = Merchant.create!(name: 'Spongebob The Merchant')
 

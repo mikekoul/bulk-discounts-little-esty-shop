@@ -1,9 +1,9 @@
 <%= form_with url: path, method: method, local: true do |f| %>
-  <%= f.label :name, required:true %><br>
-  <%= f.text_field :name, required:true %><br>
-  <%= f.label :threshold, required:true %><br>
-  <%= f.text_field :threshold, required:true %><br>
-  <%= f.label :percent_discount, required:true %><br>
-  <%= f.text_field :percent_discount, required:true %><br>
+  <%= f.label :name %><br>
+  <%= f.text_field :name  %><br>
+  <%= f.label :threshold  %><br>
+  <%= f.text_field :threshold  %><br>
+  <%= f.label :percent_discount %><br>
+  <%= f.text_field :percent_discount %><br>
   <%= f.submit "Submit" %><br>
 <% end %>
