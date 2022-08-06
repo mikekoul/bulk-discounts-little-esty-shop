@@ -39,7 +39,7 @@ RSpec.describe 'bulk discounts show page' do
 
       click_button('Edit Discount')
 
-      expect(current_path).to eq("merchants/#{merchant_1.id}/bulk_discounts/#{discount_10.id}/edit")
+      expect(current_path).to eq("/merchants/#{merchant_1.id}/bulk_discounts/#{discount_10.id}/edit")
     end
   end
 end

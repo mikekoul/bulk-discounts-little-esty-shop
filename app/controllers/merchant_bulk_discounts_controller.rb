@@ -21,7 +21,8 @@ class MerchantBulkDiscountsController < ApplicationController
   end
 
   def edit
-    binding.pry
+    @merchant = Merchant.find(params[:merchant_id])
+    @bulk_discount = BulkDiscount.find(params[:bulk_discount_id])
   end
 
   def destroy
