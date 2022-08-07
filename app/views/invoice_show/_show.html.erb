@@ -4,4 +4,5 @@
 <%= "Customer Name: #{@invoice.customer.first_name} #{@invoice.customer.last_name}" %><br>
 
 <h3>Total Revenue</h3>
-<%= "Total Revenue: #{number_to_currency(@invoice.total_revenue.fdiv(100))}"%>
+<p><%= "Total Revenue: #{number_to_currency(@invoice.total_revenue.fdiv(100))}" %></p>
+<p><%= "Total Revenue After Discounts: #{number_to_currency(@invoice.total_revenue.fdiv(100) - @invoice.discount_amount.fdiv(100))}" %>
