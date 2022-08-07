@@ -223,8 +223,31 @@ RSpec.describe "merchants invoice show page" do
       invoice_item_3 = InvoiceItem.create!(quantity: 3, unit_price: 150, status: 0, item_id: item_3.id, invoice_id: invoice_3.id)
 
       visit "/merchants/#{merchant_1.id}/invoices/#{invoice_3.id}"
+
       expect(page).to have_content("Total Revenue: $8.50")
     end
   end
 
+  describe "#bulk_discounts" do
+    it 'displays total revenue and total discounted revenue' do
+      merchant_1 = Merchant.create!(name: "Bobs Loggers")
+
+      item_1 = Item.create!(name: "Log", description: "Wood, maple", unit_price: 100, merchant_id: merchant_1.id )
+      item_2 = Item.create!(name: "Saw", description: "Metal, sharp", unit_price: 1400, merchant_id: merchant_1.id )
+      item_3 = Item.create!(name: "Bench", description: "Cedar bench", unit_price: 150, merchant_id: merchant_1.id )
+      customer_1 = Customer.create!(first_name: "David", last_name: "Smith")
+      invoice_1 = Invoice.create!(status: 0, customer_id: customer_1.id)
+      invoice_item_1 = InvoiceItem.create!(quantity: 10, unit_price: 100, status: 0, item_id: item_1.id, invoice_id: invoice_1.id)
+      invoice_item_2 = InvoiceItem.create!(quantity: 22, unit_price: 1400, status: 0, item_id: item_2.id, invoice_id: invoice_1.id)
+      invoice_item_3 = InvoiceItem.create!(quantity: 35, unit_price: 150, status: 0, item_id: item_3.id, invoice_id: invoice_1.id)
+      discount_10 = BulkDiscount.create!(name: "10% off", threshold: 10, percent_discount: 10, merchant_id: merchant_1.id)
+      discount_20 = BulkDiscount.create!(name: "20% off", threshold: 20, percent_discount: 20, merchant_id: merchant_1.id)
+      discount_30 = BulkDiscount.create!(name: "30% off", threshold: 30, percent_discount: 30, merchant_id: merchant_1.id)
+
+      visit "/merchants/#{merchant_1.id}/invoices/#{invoice_1.id}"
+
+      expect(page).to have_content("Total Revenue: $370.50")
+      expect(page).to have_content("Total Revenue After Discounts: $292.15")
+    end
+  end
 end
