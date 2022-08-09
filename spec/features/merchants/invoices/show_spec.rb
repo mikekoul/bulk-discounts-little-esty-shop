@@ -300,12 +300,11 @@ RSpec.describe "merchants invoice show page" do
       visit "/merchants/#{merchant_1.id}/invoices/#{invoice_1.id}"
 
       within "#items-#{item_1.id}" do
-
         click_link("10% off")
-
         expect(current_path).to eq("/merchants/#{merchant_1.id}/bulk_discounts/#{invoice_item_1.discount_applied.id}")
-        expect(page).to have_content("10% off Show Page")
       end
+
+      expect(page).to have_content("10% off Show Page")
     end
   end
 end
