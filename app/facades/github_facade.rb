@@ -4,6 +4,7 @@ class GithubFacade
         @githubs = parsed.map do |contributor_data|
             Contributor.new(contributor_data)
         end
+        
     end
 
     def self.pull_requests
