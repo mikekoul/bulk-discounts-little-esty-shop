@@ -9,5 +9,7 @@ class InvoiceItem < ApplicationRecord
 
   enum status: { "pending" => 0, "packaged" => 1, "shipped" => 2 }
 
-  
+  def discount_applied
+    bulk_discounts.where("bulk_discounts.threshold <= ?", quantity).order(percent_discount: :desc).first
+  end
 end

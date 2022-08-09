@@ -25,8 +25,21 @@ RSpec.describe InvoiceItem do
       discount_20 = BulkDiscount.create!(name: "20% off", threshold: 20, percent_discount: 20, merchant_id: merchant_1.id)
       discount_30 = BulkDiscount.create!(name: "30% off", threshold: 30, percent_discount: 30, merchant_id: merchant_1.id)
 
-      expect(invoice_item.discount_applied).to eq(discount_10)
+      expect(invoice_item_1.discount_applied).to eq(discount_10)
     end
+
+    it 'returns 30% discount when threshold is met' do
+
+      merchant_1 = Merchant.create!(name: "Bobs Loggers")
+      item_1 = Item.create!(name: "Log", description: "Wood, maple", unit_price: 100, merchant_id: merchant_1.id )
+      customer_1 = Customer.create!(first_name: "David", last_name: "Smith")
+      invoice_1 = Invoice.create!(status: 0, customer_id: customer_1.id)
+      invoice_item_1 = InvoiceItem.create!(quantity: 35, unit_price: 100, status: 0, item_id: item_1.id, invoice_id: invoice_1.id)
+      discount_10 = BulkDiscount.create!(name: "10% off", threshold: 10, percent_discount: 10, merchant_id: merchant_1.id)
+      discount_20 = BulkDiscount.create!(name: "20% off", threshold: 20, percent_discount: 20, merchant_id: merchant_1.id)
+      discount_30 = BulkDiscount.create!(name: "30% off", threshold: 30, percent_discount: 30, merchant_id: merchant_1.id)
+
+      expect(invoice_item_1.discount_applied).to eq(discount_30)
     end
   end
 end
