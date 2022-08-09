@@ -249,7 +249,9 @@ RSpec.describe "merchants invoice show page" do
       expect(page).to have_content("Total Revenue: $370.50")
       expect(page).to have_content("Total Revenue After Discounts: $292.15")
     end
+  end
     
+  describe '#applied discount link' do
     it 'next to each invoice item is a link to the applied bulk discount' do
       merchant_1 = Merchant.create!(name: "Bobs Loggers")
 
@@ -268,7 +270,7 @@ RSpec.describe "merchants invoice show page" do
       discount_30 = BulkDiscount.create!(name: "30% off", threshold: 30, percent_discount: 30, merchant_id: merchant_1.id)
 
       visit "/merchants/#{merchant_1.id}/invoices/#{invoice_1.id}"
-save_and_open_page
+
       within "#items-#{item_1.id}" do
         expect(page).to have_link("10% off")
       end
@@ -283,6 +285,25 @@ save_and_open_page
 
       within "#items-#{item_4.id}" do
         expect(page).to_not have_link("10% off")
+      end
+    end
+
+    it 'click applied bulk discount link and redirect to discount show page' do
+      merchant_1 = Merchant.create!(name: "Bobs Loggers")
+
+      item_1 = Item.create!(name: "Log", description: "Wood, maple", unit_price: 100, merchant_id: merchant_1.id )
+      customer_1 = Customer.create!(first_name: "David", last_name: "Smith")
+      invoice_1 = Invoice.create!(status: 0, customer_id: customer_1.id)
+      invoice_item_1 = InvoiceItem.create!(quantity: 10, unit_price: 100, status: 0, item_id: item_1.id, invoice_id: invoice_1.id)
+      discount_10 = BulkDiscount.create!(name: "10% off", threshold: 10, percent_discount: 10, merchant_id: merchant_1.id)
+
+      visit "/merchants/#{merchant_1.id}/invoices/#{invoice_1.id}"
+
+      within "#items-#{item_1.id}" do
+
+        click_link("10% off")
+
+        expect(current_path).to eq("/merchants/#{merchant_1.id}/bulk_discounts/#{invoice_item_1.discount_applied.id}")
       end
     end
   end
