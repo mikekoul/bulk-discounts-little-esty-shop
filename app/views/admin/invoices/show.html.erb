@@ -11,7 +11,7 @@
 
 <center><h1 style='background-color: #f1f1f1;'>Invoice #<%= @invoice.id %></h1></center>
 
-<%= render "invoice_show/show" %>
+<%= render "shared/show" %>
 
 <% @invoice.items.each do |item| %>
   <div id="items-<%= item.id %>">
