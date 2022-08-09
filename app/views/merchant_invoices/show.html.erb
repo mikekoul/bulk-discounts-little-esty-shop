@@ -13,15 +13,19 @@
 
 <%= render "invoice_show/show" %>
 
-<% @invoice.items.each do |item| %>
-  <div id="items-<%= item.id %>">
-    <h3>Item: <%= item.name %></h3>
-    <p>Quantity: <%= item.quantity_ordered(@invoice) %><p>
-    <p>Price: <%= number_to_currency(item.price_sold(@invoice).fdiv(100)) %><p>
-    <p>Status: <%= form_with url: "/merchants/#{item.merchant_id}/invoices/#{@invoice.id}", method: :patch, local: true do |f| %></p><br>
-    <%= f.select :update_status, ['pending', 'packaged', 'shipped'], selected: item.item_status(@invoice) %><br>
+<% @invoice.invoice_items.each do |invoice_item| %>
+  <div id="items-<%= invoice_item.item.id %>">
+    <h3>Item: <%= invoice_item.item.name %></h3>
+    <p>Quantity: <%= invoice_item.quantity %><p>
+    <p>Price: <%= number_to_currency(invoice_item.item.price_sold(@invoice).fdiv(100)) %><p>
+    <p>Status: <%= form_with url: "/merchants/#{invoice_item.item.merchant_id}/invoices/#{@invoice.id}", method: :patch, local: true do |f| %></p><br>
+    <%= f.select :update_status, ['pending', 'packaged', 'shipped'], selected: invoice_item.item.item_status(@invoice) %><br>
     <%= f.submit 'Update Status' %>
     <% end %>
+    <br>
+      <% if invoice_item.discount_applied %>
+        <%= link_to "#{invoice_item.discount_applied.name}", "/merchants/#{@merchant.id}/bulk_discounts/#{invoice_item.discount_applied.id}" %>
+      <% end %>
   </div>
 <% end %>
 
