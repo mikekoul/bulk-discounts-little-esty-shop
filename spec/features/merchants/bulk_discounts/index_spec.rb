@@ -129,4 +129,34 @@ RSpec.describe 'bulk discounts index page' do
       expect(page).to_not have_content("10% off Purchase of 10 items")
     end
   end
+
+  describe "#API" do
+    it 'displays the next three public holidays' do
+      merchant_1 = Merchant.create!(name: 'Spongebob The Merchant')
+      merchant_2 = Merchant.create!(name: 'Sandy The Squirrel Merchant')
+      discount_10 = BulkDiscount.create!(name: "10% off", threshold: 10, percent_discount: 10, merchant_id: merchant_1.id)
+      discount_20 = BulkDiscount.create!(name: "20% off", threshold: 20, percent_discount: 20, merchant_id: merchant_1.id)
+      discount_30 = BulkDiscount.create!(name: "30% off", threshold: 30, percent_discount: 30, merchant_id: merchant_1.id)
+
+      visit "/merchants/#{merchant_1.id}/bulk_discounts"
+
+      within "#holidays0" do
+        expect(page).to have_content("Labour Day")
+        expect(page).to have_content("2022-09-05")
+        expect(page).to_not have_content("Columbus Day")
+      end
+
+      within "#holidays1" do
+        expect(page).to have_content("Columbus Day")
+        expect(page).to have_content("2022-10-10")
+        expect(page).to_not have_content("Labour Day")
+      end
+
+      within "#holidays2" do
+        expect(page).to have_content("Veterans Day")
+        expect(page).to have_content("2022-11-11")
+        expect(page).to_not have_content("Columbus Day")
+      end
+    end
+  end
 end

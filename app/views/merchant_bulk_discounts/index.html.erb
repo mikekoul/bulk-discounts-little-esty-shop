@@ -20,3 +20,11 @@
 
 <p><%= link_to "Create New Discount", "/merchants/#{@merchant.id}/bulk_discounts/new" %>
 
+<h2>Next Three Public Holidays</h2>
+<% @holidays.each_with_index do |holiday, index| %>
+  <div id="holidays<%= index %>">
+    <h1><%= holiday.name %></h1>
+    <p><%= holiday.date %></p>
+  </div>
+<% end %>
+
